@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import axios from 'axios';
 import Config from './Config';
+import RequestList from './components/RequestList';
 
 class App extends React.Component {
   baseUrl = new Config().getApiHost();
@@ -50,35 +51,7 @@ class App extends React.Component {
             Add
         </a>
         </header>
-        <div className="divTable">
-          <div className="divTableHeading">
-            <div className="divTableHead">URL</div><div className="divTableHead">Progress</div><div className="divTableHead">Actions</div>
-          </div>
-          <div className="divTableBody">
-            {
-              this.state.requests.map((request) => (
-                <div key={request.id}>
-                  <div className="divTableRow">
-                    <div className="divTableCell">{request.url}</div>
-                    <div className="divTableCell">{request.avgPrg}</div>
-                    <div className="divTableCell"><a href="#area">details</a></div>
-                  </div>
-                  <div className="divTableRow">
-                    <div className="divTableCell">
-                      <div className="divTable">
-                        {request.items.map(item => (
-                        <div key={item.id} className="divTableRow">
-                          <div className="divTableCell">{item.title}</div>
-                          <div className="divTableCell">{item.status}</div>
-                          <div className="divTableCell">{item.progress}</div>
-                        </div>))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            }
-          </div></div>
+        <RequestList requests={this.state.requests}/>
       </div>
     );
   }
