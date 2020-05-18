@@ -8,24 +8,29 @@ import Header from './components/Header';
 class App extends React.Component {
   baseUrl = new Config().getApiHost();
 
-  getProgressAvg(request) {
-    let sum = 0;
-    request.items.forEach(function (item) {
-      sum += item.progress;
-    })
-    return sum / request.items.length
+  deleteRequest = requestId => {
+    console.log('delete requested', requestId)
+    axios.delete(this.baseUrl + '/api/requests/'+requestId)
+      .then(res => {
+        this.getRequests()
+      })
   }
 
+  addRequest = (request) => {
+    axios.post(this.baseUrl + '/api/requests', request)
+    .then(res => {
+      console.log('submitted')
+      this.getRequests()
+
+    })
+  }
   avgPrg = (request) => {
     let sum = 0;
     request.items.forEach(item => sum += item.progress)
-    return sum / request.items.length;
+    return request.items == null || request.items.length === 0 ? 0: sum / request.items.length;
   };
 
-  state = {
-    requests: []
-  }
-  componentDidMount() {
+  getRequests = () => {
     axios.get(this.baseUrl + '/api/requests')
       .then(res => {
         const requests = res.data
@@ -37,13 +42,19 @@ class App extends React.Component {
         this.setState({ requests: requests })
       })
   }
+  state = {
+    requests: []
+  }
+  componentDidMount() {
+    this.getRequests();
+  }
 
 
   render() {
     return (
       <div className="App">
-        <Header/>
-        <RequestList requests={this.state.requests}/>
+        <Header onAdd={(request)=>this.addRequest(request)}/>
+        <RequestList requests={this.state.requests} onDelete={(requestId)=>this.deleteRequest(requestId)}/>
       </div>
     );
   }

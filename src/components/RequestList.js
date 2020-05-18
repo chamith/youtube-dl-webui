@@ -11,7 +11,7 @@ export default class RequestList extends Component {
             <div className="divTableBody">
               {
                 this.props.requests.map(request => (
-                  <Request key={request.id} request={request} />
+                  <Request key={request.id} request={request} onDelete={(requestId)=>this.props.onDelete(requestId)}/>
                 ))
               }
             </div>

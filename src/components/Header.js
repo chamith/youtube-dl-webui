@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal';
-import axios from 'axios';
 import Config from '../Config';
 
 export default class Header extends Component {
@@ -20,10 +19,7 @@ export default class Header extends Component {
     event.preventDefault();
     const data = this.state;
     console.log('Final Data:', data);
-    axios.post(this.baseUrl + '/api/requests', data)
-      .then(res => {
-        console.log('submitted')
-      })
+    this.props.onAdd(data);
     this.setState({ isModalOpen: false })
   }
 
@@ -40,7 +36,6 @@ export default class Header extends Component {
     return (
       <header className="App-header">
         <div>
-          <button onClick={() => this.setState({ isModalOpen: true })}>+</button>
           <Modal isOpen={this.state.isModalOpen}>
             <h2>New Download Request</h2>
             <div>URL</div>
@@ -53,7 +48,12 @@ export default class Header extends Component {
             </form>
           </Modal>
         </div>
-        <a id="add" className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Add</a>
+        <div className="divTable">
+          <div className="divTableRow">
+            <div className="divTableCell"><button onClick={() => this.setState({ isModalOpen: true })} >+</button></div>
+            <div className="divTableCell"></div>
+          </div>
+        </div>
       </header>
     )
   }
