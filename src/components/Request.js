@@ -8,7 +8,6 @@ export default class Request extends Component {
         <div className="divTableRow">
           <div className="divTableCell">{request.url}</div>
           <div className="divTableCell">{request.avgPrg}</div>
-          <div className="divTableCell"><a href="#area">details</a></div>
         </div>
         <div className="divTableRow">
           <div className="divTableCell">

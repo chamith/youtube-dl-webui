@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import Config from './Config';
 import RequestList from './components/RequestList';
+import Header from './components/Header';
 
 class App extends React.Component {
   baseUrl = new Config().getApiHost();
@@ -41,16 +42,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Add
-        </a>
-        </header>
+        <Header/>
         <RequestList requests={this.state.requests}/>
       </div>
     );
