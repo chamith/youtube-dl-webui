@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal';
-import Config from '../Config';
 
 export default class Header extends Component {
 
@@ -13,13 +12,8 @@ export default class Header extends Component {
     }
   }
 
-  baseUrl = new Config().getApiHost();
-
   handleSubmit = (event) => {
-    event.preventDefault();
-    const data = this.state;
-    console.log('Final Data:', data);
-    this.props.onAdd(data);
+    this.props.onAdd(this.state);
     this.setState({ isModalOpen: false })
   }
 
@@ -39,13 +33,11 @@ export default class Header extends Component {
           <Modal isOpen={this.state.isModalOpen}>
             <h2>New Download Request</h2>
             <div>URL</div>
-            <form>
               <input type='text' name='url' value={url} onChange={this.handleInputChange} />
               <div>
                 <button onClick={this.handleSubmit}>Submit</button>
                 <button onClick={() => this.setState({ isModalOpen: false })}>Cancel</button>
               </div>
-            </form>
           </Modal>
         </div>
         <div className="divTable">
