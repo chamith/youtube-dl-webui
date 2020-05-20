@@ -6,8 +6,7 @@ export default class RequestList extends Component {
     return (
       <div className="divTable">
         <div className="divTableHeading">
-          <div className="divTableHead">URL</div>
-          <div className="divTableHead">Progress</div>
+          <div className="divTableHead">Download Queue</div>
           <div className="divTableHead">Actions</div>
         </div>
         <div className="divTableBody">

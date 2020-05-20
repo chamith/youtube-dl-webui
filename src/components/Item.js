@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 
 export default class Item extends Component {
 
-  itemStatusDesc = (statusId) => {
-    switch (statusId) {
+  statusText = () => {
+    const status = this.props.item.status;
+
+    switch (status) {
       case 0:
         return 'pending';
       case 1:
@@ -20,13 +22,14 @@ export default class Item extends Component {
   progressText = () => {
     const status = this.props.item.status;
     const progress = this.props.item.progress;
-    return status === 1 || status === 2 ? (`[${progress}%]`) : '';
+    return status > 0 && status < 3 ? (` [${progress.toFixed(2)}%]`) : '';
   }
+
   render() {
     const item = this.props.item
     return (
-      <div key={item.id} className="divTableRow">
-        <img width='24px' src={`${process.env.PUBLIC_URL}/${this.itemStatusDesc(item.status)}.png`} alt="status icon" />&nbsp;{item.title}&nbsp;{this.progressText()}
+      <div key={item.id}>
+        <span style={{width:20}}>&nbsp;&nbsp;</span><img width='24px' src={`${process.env.PUBLIC_URL}/${this.statusText()}.png`} alt="status icon" />{this.progressText()} {item.title}
       </div>
     )
   }
