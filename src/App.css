@@ -40,14 +40,15 @@
 /* DivTable.com */
 .divTable{
 	display: table;
-	width: 100%;
+  width: 100%;
+  table-layout: auto;
 }
 .divTableRow {
 	display: table-row;
 }
 
 .divTableCell, .divTableHead {
-	border: 1px solid #999999;
+	border: 1px solid #eeeeee;
 	display: table-cell;
   padding: 3px 10px;
   text-align: left;
@@ -66,3 +67,7 @@
 	display: table-row-group;
 }
 
+.progress { width: 30px; }
+.actions { width: 30px; }
+.url { width: 80%; }
+.itemList{ width: 100%;}

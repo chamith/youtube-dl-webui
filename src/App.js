@@ -47,6 +47,8 @@ class App extends React.Component {
   }
   componentDidMount() {
     this.getRequests();
+
+    setInterval(this.getRequests, 5000); // runs every 5 seconds.
   }
 
 
