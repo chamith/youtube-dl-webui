@@ -48,7 +48,7 @@
 }
 
 .divTableCell, .divTableHead {
-	border: 1px solid #eeeeee;
+  border-top: 1px solid #eeeeee;
 	display: table-cell;
   padding: 3px 10px;
   text-align: left;
@@ -66,8 +66,28 @@
 .divTableBody {
 	display: table-row-group;
 }
+.itemList {
+	border: none;
+  padding: 2px 10px;
+  text-align: left;
+}
 
 .progress { width: 30px; }
 .actions { width: 30px; }
 .url { width: 80%; }
 .itemList{ width: 100%;}
+
+.modalContent {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+}
+
+.modalOverlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
