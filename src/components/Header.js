@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal';
+import {IconButton, Checkbox} from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default class Header extends Component {
 
@@ -10,7 +19,6 @@ export default class Header extends Component {
       url: '',
       schedule: 0
     }
-    //this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleSubmit = (event) => {
@@ -34,24 +42,36 @@ export default class Header extends Component {
     const { url, schedule } = this.state;
     return (
       <header className="App-header">
-        <div>
-          <Modal isOpen={this.state.isModalOpen} style={{ overlay: { backgroundColor: 'grey' }, content: { border: 1, width: '40%', height: '20%', left: '30%', top: '40%' } }}>
-            <h2>New Download Request</h2>
-            <div>URL: <input type='text' name='url' value={url} onChange={this.handleInputChange} style={{ width: '92%' }} /></div>
-            <div>&nbsp;</div>
-            <div><input name='schedule' type='checkbox' checked={!schedule} onChange={this.handleInputChange}/>Download during off peak hours</div>
-            <div>&nbsp;</div>
-            <div>
-              <button onClick={this.handleSubmit}>Submit</button>&nbsp;
-              <button onClick={() => this.setState({ isModalOpen: false })}>Cancel</button>
-            </div>
-          </Modal>
-        </div>
         <div className="divTable">
           <div className="divTableRow">
-            <div className="divTableCell"><button onClick={() => this.setState({ isModalOpen: true })}  variant="contained" color="primary"><img alt='add icon' width='24px' src={process.env.PUBLIC_URL + '/add.png'}/></button></div>
+            <div className="divTableCell"><IconButton onClick={() => this.setState({ isModalOpen: true })}  variant="contained"><AddIcon/></IconButton></div>
           </div>
         </div>
+        <Dialog open={this.state.isModalOpen} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">New Download Request</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="url"
+            label="URL"
+            type="url"
+            name="url"
+            fullWidth
+            value={url}
+            onChange={this.handleInputChange}
+          />
+          <FormControlLabel label="Download during off peak hours" control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={this.handleInputChange} />}/>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleSubmit} color="primary" autoFocus="true">
+            Submit
+          </Button>
+          <Button onClick={() => this.setState({ isModalOpen: false })} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
       </header>
     )
   }

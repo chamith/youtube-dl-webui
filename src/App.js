@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import axios from 'axios';
 import Config from './Config';
-import RequestList from './components/RequestList';
+import YddRequestList from './components/YddRequestList';
 import Header from './components/Header';
 
 class App extends React.Component {
@@ -56,7 +56,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header onAdd={(request)=>this.addRequest(request)}/>
-        <RequestList requests={this.state.requests} onDelete={(requestId)=>this.deleteRequest(requestId)}/>
+        <YddRequestList requests={this.state.requests} onDelete={(requestId)=>this.deleteRequest(requestId)}/>
       </div>
     );
   }
