@@ -96,8 +96,8 @@ export default class YddRequest extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.props.onDelete(request.id)} color="primary" autoFocus> Yes </Button>
-            <Button onClick={() => this.setState({ isModalOpen: false })} color="primary" >No</Button>
+            <Button onClick={() => this.props.onDelete(request.id)} color="primary"  variant="outlined" autoFocus> Yes </Button>
+            <Button onClick={() => this.setState({ isModalOpen: false })} color="secondary"  variant="outlined">No</Button>
           </DialogActions>
         </Dialog>
 

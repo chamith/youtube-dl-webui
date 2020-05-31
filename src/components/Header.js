@@ -64,10 +64,10 @@ export default class Header extends Component {
           <FormControlLabel label="Download during off peak hours" control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={this.handleInputChange} />}/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleSubmit} color="primary" autoFocus="true">
+          <Button onClick={this.handleSubmit} variant="outlined" color="primary" autoFocus>
             Submit
           </Button>
-          <Button onClick={() => this.setState({ isModalOpen: false })} color="primary">
+          <Button onClick={() => this.setState({ isModalOpen: false })}  variant="outlined" color="secondary">
             Cancel
           </Button>
         </DialogActions>
