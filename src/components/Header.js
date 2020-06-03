@@ -1,53 +1,74 @@
-import React, { Component } from 'react'
-import Modal from 'react-modal';
-import {IconButton, Checkbox} from '@material-ui/core'
+import React, { useState, props } from 'react'
+import { Typography, IconButton, Checkbox, Button, TextField, Dialog, DialogActions, DialogContent, FormControlLabel, DialogTitle, Toolbar, AppBar, makeStyles, Menu, MenuItem } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import MenuIcon from '@material-ui/icons/Menu';
 
-export default class Header extends Component {
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: 2,
+  },
+  title: {
+    flexGrow: 1,
+  },
+  toolBar: {
+    backgroundColor: theme.palette.secondary.light
+  }
+}));
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isModalOpen: false,
-      url: '',
-      schedule: 0
-    }
+
+export default function Header(props) {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [url, setUrl] = useState(null);
+  const [schedule, setSchedule] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleSubmit = (event) => {
+    props.onAdd({ url: url, schedule: schedule });
+    setModalOpen(false);
   }
 
-  handleSubmit = (event) => {
-    this.props.onAdd(this.state);
-    this.setState({ isModalOpen: false })
-  }
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  handleInputChange = (event) => {
-    const target = event.target;
-    const name = target.name;
-    const value = name === 'schedule' ? !target.checked : target.value;
+  const handleClose = (event) => {
+    console.log(event.target.value)
+    setAnchorEl(null);
+  };
 
-    console.log(`handling the onChange event of ${name} changing to ${value}`);
-    this.setState({
-      [name]: value
-    });
-  }
+  const classes = useStyles();
+  return (
+    <header className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className={classes.menuButton} edge="start" color="inherit" aria-label="menu" onClick={handleClick}>
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Add</MenuItem>
+            <MenuItem onClick={handleClose}>Delete</MenuItem>
+            <MenuItem onClick={handleClose}>Clear Completed Requests</MenuItem>
+          </Menu>
+          <Typography className={classes.title} variant="h6" >
+            YouTube Downloader Daemon
+          </Typography>
 
-  render() {
-    Modal.setAppElement('#root');
-    const { url, schedule } = this.state;
-    return (
-      <header className="App-header">
-        <div className="divTable">
-          <div className="divTableRow">
-            <div className="divTableCell"><IconButton onClick={() => this.setState({ isModalOpen: true })}  variant="contained"><AddIcon/></IconButton></div>
-          </div>
-        </div>
-        <Dialog open={this.state.isModalOpen} aria-labelledby="form-dialog-title">
+        </Toolbar></AppBar>
+      <Toolbar className={classes.toolBar}>
+        <IconButton onClick={() => setModalOpen(true)} color="inherit" edge="start" ><AddIcon /></IconButton>
+
+      </Toolbar>
+
+      <Dialog open={isModalOpen} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Download Request</DialogTitle>
         <DialogContent>
           <TextField
@@ -59,20 +80,19 @@ export default class Header extends Component {
             name="url"
             fullWidth
             value={url}
-            onChange={this.handleInputChange}
+            onChange={event => setUrl(event.target.value)}
           />
-          <FormControlLabel label="Download during off peak hours" control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={this.handleInputChange} />}/>
+          <FormControlLabel label="Download during off peak hours" control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={(event) => setSchedule(!event.target.checked)} />} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleSubmit} variant="outlined" color="primary" autoFocus>
+          <Button onClick={handleSubmit} variant="outlined" color="primary" autoFocus>
             Submit
           </Button>
-          <Button onClick={() => this.setState({ isModalOpen: false })}  variant="outlined" color="secondary">
+          <Button onClick={() => setModalOpen(false)} variant="outlined" color="secondary">
             Cancel
           </Button>
         </DialogActions>
       </Dialog>
-      </header>
-    )
-  }
+    </header>
+  )
 }

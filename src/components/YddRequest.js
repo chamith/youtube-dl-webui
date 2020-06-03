@@ -73,7 +73,7 @@ export default class YddRequest extends Component {
           <TableCell component="th" scope="row">{this.progressText()} {request.url}</TableCell>
           <TableCell align="right">
             {/* <button onClick={(event) => this.setState({ isModalOpen: true })}><img alt='delete icon' width='24px' src={process.env.PUBLIC_URL + '/delete.png'} /></button> */}
-            <IconButton onClick={(event) => this.setState({ isModalOpen: true })}><ClearIcon /></IconButton>
+            <IconButton onClick={(event) => this.setState({ isModalOpen: true })} color="secondary"><ClearIcon /></IconButton>
           </TableCell>
         </TableRow>
         <TableRow>

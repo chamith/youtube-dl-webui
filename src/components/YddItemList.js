@@ -19,7 +19,7 @@ export default class YddItemList extends Component {
                 </TableHead>
                 <TableBody>
                     {this.props.items.map((item) => (
-                        <YddItem item={item}/>
+                        <YddItem  key={item.id} item={item}/>
                     ))}
                 </TableBody>
             </Table>

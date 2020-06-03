@@ -4,13 +4,15 @@ import axios from 'axios';
 import Config from './Config';
 import YddRequestList from './components/YddRequestList';
 import Header from './components/Header';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
 class App extends React.Component {
   baseUrl = new Config().getApiHost();
 
   deleteRequest = requestId => {
     console.log('delete requested', requestId)
-    axios.delete(this.baseUrl + '/api/requests/'+requestId)
+    axios.delete(this.baseUrl + '/api/requests/' + requestId)
       .then(res => {
         this.getRequests()
       })
@@ -18,16 +20,16 @@ class App extends React.Component {
 
   addRequest = (request) => {
     axios.post(this.baseUrl + '/api/requests', request)
-    .then(res => {
-      console.log('submitted')
-      this.getRequests()
+      .then(res => {
+        console.log('submitted')
+        this.getRequests()
 
-    })
+      })
   }
   avgPrg = (request) => {
     let sum = 0;
     request.items.forEach(item => sum += item.progress)
-    return request.items == null || request.items.length === 0 ? 0: sum / request.items.length;
+    return request.items == null || request.items.length === 0 ? 0 : sum / request.items.length;
   };
 
   getRequests = () => {
@@ -54,10 +56,16 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <Header onAdd={(request)=>this.addRequest(request)}/>
-        <YddRequestList requests={this.state.requests} onDelete={(requestId)=>this.deleteRequest(requestId)}/>
-      </div>
+      <Container>    
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Header onAdd={(request) => this.addRequest(request)} />
+          </Grid>
+          <Grid item xs={12}>
+            <YddRequestList requests={this.state.requests} onDelete={(requestId) => this.deleteRequest(requestId)} />
+          </Grid>
+        </Grid>
+      </Container>
     );
   }
 }
