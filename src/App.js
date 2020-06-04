@@ -26,6 +26,15 @@ class App extends React.Component {
 
       })
   }
+
+  clearCompletedRequests = () => {
+    console.log('clear completed requested')
+    axios.delete(this.baseUrl + '/api/requests')
+      .then(res => {
+        this.getRequests()
+      })
+  }
+
   avgPrg = (request) => {
     let sum = 0;
     request.items.forEach(item => sum += item.progress)
@@ -59,7 +68,7 @@ class App extends React.Component {
       <Container>    
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Header onAdd={(request) => this.addRequest(request)} />
+            <Header onAdd={(request) => this.addRequest(request)} onClearCompleted={()=>this.clearCompletedRequests()} />
           </Grid>
           <Grid item xs={12}>
             <YddRequestList requests={this.state.requests} onDelete={(requestId) => this.deleteRequest(requestId)} />

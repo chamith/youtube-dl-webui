@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Typography, IconButton, Checkbox, Button, TextField, Dialog, DialogActions, DialogContent, FormControlLabel, DialogTitle, Toolbar, AppBar, makeStyles, Menu, MenuItem } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import MenuIcon from '@material-ui/icons/Menu';
-
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -48,9 +48,8 @@ export default function Header(props) {
             <MenuIcon />
           </IconButton>
           <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
-            <MenuItem onClick={event=>{setModalOpen(true); setAnchorEl(null)}}>Add</MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
-            <MenuItem onClick={handleClose}>Clear Completed Requests</MenuItem>
+            <MenuItem onClick={event => { setModalOpen(true); setAnchorEl(null); }}><AddIcon />&nbsp;&nbsp;Add</MenuItem>
+            <MenuItem onClick={() => { props.onClearCompleted(); setAnchorEl(null); }}><ClearAllIcon />&nbsp;&nbsp;Clear Completed</MenuItem>
           </Menu>
           <Typography className={classes.title} variant="h6" > YouTube Downloader Daemon </Typography>
         </Toolbar>
@@ -61,7 +60,7 @@ export default function Header(props) {
       <Dialog open={isModalOpen} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Download Request</DialogTitle>
         <DialogContent>
-          <TextField autoFocus margin="dense" id="url" label="URL" type="url" name="url" fullWidth value={url} onChange={event => setUrl(event.target.value)}/>
+          <TextField autoFocus margin="dense" id="url" label="URL" type="url" name="url" fullWidth value={url} onChange={event => setUrl(event.target.value)} />
           <FormControlLabel label="Download during off peak hours" control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={(event) => setSchedule(!event.target.checked)} />} />
         </DialogContent>
         <DialogActions>

@@ -11,12 +11,12 @@ export default function YddItemList(props) {
 
     return (
         <Table size="small" aria-label="purchases" style={{ margin: '0px 0px 0px 75px', width: '75%' }}>
-            <TableHead>
+            {/* <TableHead>
                 <TableRow>
                     <TableCell style={{ width: '40px' }}>Status</TableCell>
                     <TableCell>Title</TableCell>
                 </TableRow>
-            </TableHead>
+            </TableHead> */}
             <TableBody>
                 {props.items.map((item) => (
                     <YddItem key={item.id} item={item} />

@@ -24,6 +24,7 @@ const useRowStyles = makeStyles({
   root: {
     '& > *': {
       borderBottom: 'unset',
+      padding: '5px'
     },
   },
 });
