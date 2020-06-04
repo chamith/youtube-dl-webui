@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   toolBar: {
-    backgroundColor: theme.palette.secondary.light
+    //backgroundColor: theme.palette.secondary.dark,
+    borderBottom: 'solid 1px'
   }
 }));
 
@@ -56,6 +57,7 @@ export default function Header(props) {
       </AppBar>
       <Toolbar className={classes.toolBar}>
         <IconButton onClick={() => setModalOpen(true)} color="inherit" edge="start" ><AddIcon /></IconButton>
+        <IconButton onClick={() => props.onClearCompleted()}><ClearAllIcon/></IconButton>
       </Toolbar>
       <Dialog open={isModalOpen} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Download Request</DialogTitle>
