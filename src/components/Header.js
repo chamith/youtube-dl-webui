@@ -1,4 +1,4 @@
-import React, { useState, props } from 'react'
+import React, { useState } from 'react'
 import { Typography, IconButton, Checkbox, Button, TextField, Dialog, DialogActions, DialogContent, FormControlLabel, DialogTitle, Toolbar, AppBar, makeStyles, Menu, MenuItem } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Header(props) {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [url, setUrl] = useState(null);
+  const [url, setUrl] = useState('');
   const [schedule, setSchedule] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -47,50 +47,26 @@ export default function Header(props) {
           <IconButton className={classes.menuButton} edge="start" color="inherit" aria-label="menu" onClick={handleClick}>
             <MenuIcon />
           </IconButton>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Add</MenuItem>
+          <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
+            <MenuItem onClick={event=>{setModalOpen(true); setAnchorEl(null)}}>Add</MenuItem>
             <MenuItem onClick={handleClose}>Delete</MenuItem>
             <MenuItem onClick={handleClose}>Clear Completed Requests</MenuItem>
           </Menu>
-          <Typography className={classes.title} variant="h6" >
-            YouTube Downloader Daemon
-          </Typography>
-
-        </Toolbar></AppBar>
+          <Typography className={classes.title} variant="h6" > YouTube Downloader Daemon </Typography>
+        </Toolbar>
+      </AppBar>
       <Toolbar className={classes.toolBar}>
         <IconButton onClick={() => setModalOpen(true)} color="inherit" edge="start" ><AddIcon /></IconButton>
-
       </Toolbar>
-
       <Dialog open={isModalOpen} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Download Request</DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="url"
-            label="URL"
-            type="url"
-            name="url"
-            fullWidth
-            value={url}
-            onChange={event => setUrl(event.target.value)}
-          />
+          <TextField autoFocus margin="dense" id="url" label="URL" type="url" name="url" fullWidth value={url} onChange={event => setUrl(event.target.value)}/>
           <FormControlLabel label="Download during off peak hours" control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={(event) => setSchedule(!event.target.checked)} />} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit} variant="outlined" color="primary" autoFocus>
-            Submit
-          </Button>
-          <Button onClick={() => setModalOpen(false)} variant="outlined" color="secondary">
-            Cancel
-          </Button>
+          <Button onClick={handleSubmit} variant="outlined" color="primary" autoFocus> Submit </Button>
+          <Button onClick={() => setModalOpen(false)} variant="outlined" color="secondary"> Cancel </Button>
         </DialogActions>
       </Dialog>
     </header>

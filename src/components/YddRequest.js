@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,20 +18,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default class YddRequest extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isModalOpen: false,
-      isRowOpen: false
-    }
+const useRowStyles = makeStyles({
+  root: {
+    '& > *': {
+      borderBottom: 'unset',
+    },
+  },
+});
 
-  }
+export default function YddRequest(props) {
+  const { id, url, status, progress, items } = props.request;
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isRowOpen, setRowOpen] = useState(false);
+  const classes = useRowStyles();
 
-  statusIcon = () => {
-
-    const status = this.props.request.status;
+  const statusIcon = () => {
 
     if (status > 0 && status < 3)
       return <AutorenewIcon />;
@@ -43,65 +46,48 @@ export default class YddRequest extends Component {
       return <ErrorIcon />;
   }
 
-  progressText = () => {
-    const status = this.props.request.status;
-    const progress = this.props.request.progress;
-
+  const progressText = () => {
     return status > 0 && status < 3 ? (` [${progress.toFixed(2)}%]`) : '';
   }
 
-
-  render() {
-    const request = this.props.request
-    const classes = theme => ({
-      root: {
-        '& > *': {
-          borderBottom: 'unset',
-        },
-      },
-    })
-    return (
-
-      <>
-        <TableRow className={classes.root}>
-          <TableCell>
-            <IconButton aria-label="expand row" size="small" onClick={() => this.setState({ isRowOpen: !this.state.isRowOpen })}>
-              {this.state.isRowOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell>{this.statusIcon()}</TableCell>
-          <TableCell component="th" scope="row">{this.progressText()} {request.url}</TableCell>
-          <TableCell align="right">
-            {/* <button onClick={(event) => this.setState({ isModalOpen: true })}><img alt='delete icon' width='24px' src={process.env.PUBLIC_URL + '/delete.png'} /></button> */}
-            <IconButton onClick={(event) => this.setState({ isModalOpen: true })} color="secondary"><ClearIcon /></IconButton>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={this.state.isRowOpen} timeout="auto" unmountOnExit>
-              <Box margin={1}>
-                <YddItemList items={request.items} />
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-        <Dialog
-          open={this.state.isModalOpen}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description">
-          <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure to delete the request <b>'{request.url}'</b>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => this.props.onDelete(request.id)} color="primary"  variant="outlined" autoFocus> Yes </Button>
-            <Button onClick={() => this.setState({ isModalOpen: false })} color="secondary"  variant="outlined">No</Button>
-          </DialogActions>
-        </Dialog>
-
-      </>
-    )
-  }
+  return (
+    <>
+      <TableRow className={classes.root}>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setRowOpen(!isRowOpen)}>
+            {isRowOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell>{statusIcon()}</TableCell>
+        <TableCell component="th" scope="row">{progressText()} {url}</TableCell>
+        <TableCell align="right">
+          <IconButton onClick={(event) => setModalOpen(true)} color="secondary"><ClearIcon /></IconButton>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={isRowOpen} timeout="auto" unmountOnExit>
+            <Box margin={1}>
+              <YddItemList items={items} />
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+      <Dialog
+        open={isModalOpen}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure to delete the request <b>'{url}'</b>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => props.onDelete(id)} color="primary" variant="outlined" autoFocus> Yes </Button>
+          <Button onClick={() => setModalOpen(false)} color="secondary" variant="outlined">No</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
 }

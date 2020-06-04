@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import DoneIcon from '@material-ui/icons/Done';
@@ -7,11 +7,10 @@ import PauseIcon from '@material-ui/icons/Pause';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
-export default class YddItem extends Component {
+export default function YddItem(props) {
+  const { id, title, status, progress } = props.item;
 
-  statusIcon = () => {
-    const status = this.props.item.status;
-
+  const statusIcon = () => {
     switch (status) {
       case 0:
         return <HourglassEmptyIcon />;
@@ -26,20 +25,15 @@ export default class YddItem extends Component {
     }
   }
 
-  progressText = () => {
-    const status = this.props.item.status;
-    const progress = this.props.item.progress;
+  const progressText = () => {
     return status > 0 && status < 3 ? (` [${progress.toFixed(2)}%]`) : '';
   }
 
-  render() {
-    const item = this.props.item
-    return (
-      <TableRow key={item.id}>
-        <TableCell component="th" scope="row">
-          {this.statusIcon()}
-        </TableCell>
-        <TableCell> {this.progressText()} {item.title}</TableCell>
-      </TableRow>)
-  }
+  return (
+    <TableRow key={id}>
+      <TableCell component="th" scope="row">
+        {statusIcon()}
+      </TableCell>
+      <TableCell> {progressText()} {title}</TableCell>
+    </TableRow>)
 } 

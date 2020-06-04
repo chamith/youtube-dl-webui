@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import YddRequest from './YddRequest';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,8 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-export default class YddRequestList extends Component {
-  render() {
+export default function YddRequestList (props) {
+
     return (
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
@@ -22,12 +22,11 @@ export default class YddRequestList extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.requests.map((request) => (
-              <YddRequest key={request.id} request={request} onDelete={(requestId) => this.props.onDelete(requestId)}/>
+            {props.requests.map((request) => (
+              <YddRequest key={request.id} request={request} onDelete={(requestId) => props.onDelete(requestId)}/>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     )
-  }
 }
