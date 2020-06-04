@@ -85,8 +85,8 @@ export default function YddRequest(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => props.onDelete(id)} color="primary" variant="outlined" autoFocus> Yes </Button>
-          <Button onClick={() => setModalOpen(false)} color="secondary" variant="outlined">No</Button>
+          <Button onClick={() => props.onDelete(id)} color="primary" variant="contained" autoFocus> Yes </Button>
+          <Button onClick={() => setModalOpen(false)} color="secondary" variant="contained">No</Button>
         </DialogActions>
       </Dialog>
     </>

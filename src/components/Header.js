@@ -25,10 +25,17 @@ export default function Header(props) {
   const [url, setUrl] = useState('');
   const [schedule, setSchedule] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isValidUrl, setValidUrl] = useState(true);
+  const [urlHelperText, setUrlHelperText] = useState('');
+  const [validateOnBlur, setValidateOnBlur] = useState(false);
 
   const handleSubmit = (event) => {
-    props.onAdd({ url: url, schedule: schedule });
-    setModalOpen(false);
+    
+    if(validateUrl(url)){
+      props.onAdd({ url: url, schedule: schedule });
+      setModalOpen(false);
+    }
+
   }
 
   const handleClick = (event) => {
@@ -39,6 +46,27 @@ export default function Header(props) {
     console.log(event.target.value)
     setAnchorEl(null);
   };
+
+  const validateUrl = (url) => {
+
+    console.log("validating URL")
+    let res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+
+    let isValid = (res !== null);
+
+    if (url === '')
+      isValid = false;
+    
+    if (!isValid){
+      setUrlHelperText('invalid URL');
+    }
+    else
+      setUrlHelperText('');
+
+    setValidUrl(isValid);
+    setValidateOnBlur(true)
+    return isValid;
+  }
 
   const classes = useStyles();
   return (
@@ -62,12 +90,14 @@ export default function Header(props) {
       <Dialog open={isModalOpen} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Download Request</DialogTitle>
         <DialogContent>
-          <TextField autoFocus margin="dense" id="url" label="URL" type="url" name="url" fullWidth value={url} onChange={event => setUrl(event.target.value)} />
-          <FormControlLabel label="Download during off peak hours" control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={(event) => setSchedule(!event.target.checked)} />} />
+          <TextField autoFocus margin="dense" id="url" label="URL" type="url" name="url" 
+            fullWidth={true} value={url} error={!isValidUrl} helperText={urlHelperText} onChange={event => setUrl(event.target.value)} onBlur={(event)=> {if (validateOnBlur) validateUrl(url)}}/>
+          <FormControlLabel label="Download during off peak hours" 
+            control={<Checkbox id="schedule" name="schedule" checked={!schedule} onChange={(event) => setSchedule(!event.target.checked)} />} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit} variant="outlined" color="primary" autoFocus> Submit </Button>
-          <Button onClick={() => setModalOpen(false)} variant="outlined" color="secondary"> Cancel </Button>
+          <Button onClick={handleSubmit} variant="contained" color="primary" autoFocus> Submit </Button>
+          <Button onClick={() => setModalOpen(false)} variant="contained" color="secondary"> Cancel </Button>
         </DialogActions>
       </Dialog>
     </header>
