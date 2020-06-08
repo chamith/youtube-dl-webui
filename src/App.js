@@ -1,82 +1,68 @@
-import React from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Config from './Config';
+import {getApiHost} from './Config';
 import YddRequestList from './components/YddRequestList';
 import Header from './components/Header';
-import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
-class App extends React.Component {
-  baseUrl = new Config().getApiHost();
+export default function App() {
+  const baseUrl = getApiHost();
+  const [requests, setRequests] = useState([]);
 
-  deleteRequest = requestId => {
+  const deleteRequest = requestId => {
     console.log('delete requested', requestId)
-    axios.delete(this.baseUrl + '/api/requests/' + requestId)
+    axios.delete(baseUrl + '/api/requests/' + requestId)
       .then(res => {
-        this.getRequests()
+        getRequests()
       })
   }
 
-  addRequest = (request) => {
-    axios.post(this.baseUrl + '/api/requests', request)
+  const addRequest = (request) => {
+    axios.post(baseUrl + '/api/requests', request)
       .then(res => {
         console.log('submitted')
-        this.getRequests()
+        getRequests()
 
       })
   }
 
-  clearCompletedRequests = () => {
+  const clearCompletedRequests = () => {
     console.log('clear completed requested')
-    axios.delete(this.baseUrl + '/api/requests')
+    axios.delete(baseUrl + '/api/requests')
       .then(res => {
-        this.getRequests()
+        getRequests()
       })
   }
 
-  avgPrg = (request) => {
+  const avgPrg = (request) => {
     let sum = 0;
     request.items.forEach(item => sum += item.progress)
     return request.items == null || request.items.length === 0 ? 0 : sum / request.items.length;
   };
 
-  getRequests = () => {
-    axios.get(this.baseUrl + '/api/requests')
+  const getRequests = () => {
+    axios.get(baseUrl + '/api/requests')
       .then(res => {
         const requests = res.data
         requests.map((request) => {
-          request.avgPrg = this.avgPrg(request)
+          request.avgPrg = avgPrg(request)
           //console.log(`url:${request.url}, average:${request.avgPrg}`)
           return request;
         });
-        this.setState({ requests: requests })
+        setRequests(requests);
       })
   }
-  state = {
-    requests: []
-  }
-  componentDidMount() {
-    this.getRequests();
 
-    setInterval(this.getRequests, 5000); // runs every 5 seconds.
-  }
+  useEffect(() => {
+    getRequests();
+    setInterval(getRequests, 5000); // runs every 5 seconds.
+  }, [])
 
-
-  render() {
-    return (
-      <Container>    
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Header onAdd={(request) => this.addRequest(request)} onClearCompleted={()=>this.clearCompletedRequests()} />
-          </Grid>
-          <Grid item xs={12}>
-            <YddRequestList requests={this.state.requests} onDelete={(requestId) => this.deleteRequest(requestId)} />
-          </Grid>
-        </Grid>
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <Header onAdd={(request) => addRequest(request)} onClear={() => clearCompletedRequests()} />
+      <YddRequestList requests={requests} onDelete={(requestId) => deleteRequest(requestId)} />
+    </Container>
+  );
 }
 
-export default App;

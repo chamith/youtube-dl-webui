@@ -47,7 +47,7 @@ export default function YddRequest(props) {
   }
 
   const ItemsRow = () => {
-    return type == 'video' ? (<TableRow />) : (
+    return type === 'video' ? (<TableRow />) : (
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={isRowOpen} timeout="auto" unmountOnExit>
@@ -61,7 +61,7 @@ export default function YddRequest(props) {
   }
 
   function RequestIcon() {
-    return type == 'video' ? <YouTubeIcon /> : <SubscriptionsIcon />;
+    return type === 'video' ? <YouTubeIcon /> : <SubscriptionsIcon />;
   }
 
   function StatusIcon() {
@@ -76,8 +76,8 @@ export default function YddRequest(props) {
   }
 
   function ExpandableButtonCell() {
-    return type == 'video' ? (<TableCell />) : (
-      <TableCell style={{width:'30px'}}>
+    return type === 'video' ? (<TableCell />) : (
+      <TableCell style={{ width: '30px' }}>
         <IconButton aria-label="expand row" size="small" onClick={() => setRowOpen(!isRowOpen)}>
           {isRowOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
@@ -89,9 +89,9 @@ export default function YddRequest(props) {
     <>
       <TableRow className={classes.root}>
         <ExpandableButtonCell />
-        <TableCell style={{width:'30px'}}><StatusIcon /></TableCell>
-        <TableCell style={{width:'30px'}}><RequestIcon /></TableCell>
-        <TableCell component="th" scope="row"><ProgressText/> <TitleText/></TableCell>
+        <TableCell style={{ width: '30px' }}><StatusIcon /></TableCell>
+        <TableCell style={{ width: '30px' }}><RequestIcon /></TableCell>
+        <TableCell component="th" scope="row"><ProgressText /> <TitleText /></TableCell>
         <TableCell align="right">
           <IconButton onClick={(event) => setModalOpen(true)} color="secondary"><ClearIcon /></IconButton>
         </TableCell>

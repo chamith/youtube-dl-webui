@@ -1,15 +1,4 @@
-class Config {
-    api_host_dev = "localhost:9001";
 
-    getApiHost = () => {
-        var protocol = window.location.protocol;
-
-        return protocol + '//' + window.location.host.replace('3000', '5000')
-    }
-
-    getEnv = () => {
-        return "dev";
-    }
+export function getApiHost(){
+    return window.location.protocol + '//' + window.location.host.replace('3000', '5000')
 }
-
-export default Config;

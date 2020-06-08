@@ -78,14 +78,14 @@ export default function Header(props) {
           </IconButton>
           <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
             <MenuItem onClick={event => { setModalOpen(true); setAnchorEl(null); }}><AddIcon />&nbsp;&nbsp;Add</MenuItem>
-            <MenuItem onClick={() => { props.onClearCompleted(); setAnchorEl(null); }}><ClearAllIcon />&nbsp;&nbsp;Clear Completed</MenuItem>
+            <MenuItem onClick={() => { props.onClear(); setAnchorEl(null); }}><ClearAllIcon />&nbsp;&nbsp;Clear Completed</MenuItem>
           </Menu>
           <Typography className={classes.title} variant="h6" > YouTube Downloader Daemon </Typography>
         </Toolbar>
       </AppBar>
       <Toolbar className={classes.toolBar}>
         <IconButton onClick={() => setModalOpen(true)} color="inherit" edge="start" ><AddIcon /></IconButton>
-        <IconButton onClick={() => props.onClearCompleted()}><ClearAllIcon/></IconButton>
+        <IconButton onClick={() => props.onClear()}><ClearAllIcon/></IconButton>
       </Toolbar>
       <Dialog open={isModalOpen} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Download Request</DialogTitle>

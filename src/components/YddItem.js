@@ -32,12 +32,12 @@ export default function YddItem(props) {
 
   return (
     <TableRow key={id}>
-      <TableCell style={{padding:'6px', width:'30px'}}>
-        <StatusIcon/>
+      <TableCell style={{ padding: '6px', width: '30px' }}>
+        <StatusIcon />
       </TableCell>
-      <TableCell style={{padding:'6px', width:'30px'}}>
-      <YouTubeIcon />
-      </TableCell>      
-      <TableCell  style={{padding:'6px'}}> <ProgressText/> {title}</TableCell>
+      <TableCell style={{ padding: '6px', width: '30px' }}>
+        <YouTubeIcon />
+      </TableCell>
+      <TableCell style={{ padding: '6px' }}> <ProgressText /> {title}</TableCell>
     </TableRow>)
 } 
