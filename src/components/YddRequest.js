@@ -31,48 +31,23 @@ const useRowStyles = makeStyles({
   },
 });
 
+
 export default function YddRequest(props) {
   const { id, url, status, progress, items, title, type, uploader } = props.request;
   const [isModalOpen, setModalOpen] = useState(false);
   const [isRowOpen, setRowOpen] = useState(false);
   const classes = useRowStyles();
 
-  const statusIcon = () => {
-
-    if (status > 0 && status < 3)
-      return <AutorenewIcon />;
-    else if (status === 0)
-      return <HourglassEmptyIcon />;
-    else if (status === 3)
-      return <DoneIcon />;
-    else
-      return <ErrorIcon />;
-  }
-
-  const progressText = () => {
+  const ProgressText = () => {
     return status > 0 && status < 3 ? (` [${progress.toFixed(2)}%]`) : '';
   }
 
-  const titleText = () => {
-    return title == null ? url : title;
+  const TitleText = () => {
+    return title == null ? url : `${title} [${uploader}]`;
   }
 
-  const icon = () => {
-    return type == 'video' ? <YouTubeIcon /> : <SubscriptionsIcon />;
-  }
-
-  const expandButtonCell = () => {
-    return type == 'video' ? (<TableCell />) : (
-      <TableCell>
-        <IconButton aria-label="expand row" size="small" onClick={() => setRowOpen(!isRowOpen)}>
-          {isRowOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </IconButton>
-      </TableCell>
-    );
-  }
-
-  const itemsRow = () => {
-    return type == 'video' ? ('') : (
+  const ItemsRow = () => {
+    return type == 'video' ? (<TableRow />) : (
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={isRowOpen} timeout="auto" unmountOnExit>
@@ -84,18 +59,44 @@ export default function YddRequest(props) {
       </TableRow>
     )
   }
+
+  function RequestIcon() {
+    return type == 'video' ? <YouTubeIcon /> : <SubscriptionsIcon />;
+  }
+
+  function StatusIcon() {
+    if (status > 0 && status < 3)
+      return <AutorenewIcon />;
+    else if (status === 0)
+      return <HourglassEmptyIcon />;
+    else if (status === 3)
+      return <DoneIcon />;
+    else
+      return <ErrorIcon />;
+  }
+
+  function ExpandableButtonCell() {
+    return type == 'video' ? (<TableCell />) : (
+      <TableCell style={{width:'30px'}}>
+        <IconButton aria-label="expand row" size="small" onClick={() => setRowOpen(!isRowOpen)}>
+          {isRowOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        </IconButton>
+      </TableCell>
+    );
+  }
+
   return (
     <>
       <TableRow className={classes.root}>
-        {expandButtonCell()}
-        <TableCell>{statusIcon()}</TableCell>
-        <TableCell>{icon()}</TableCell>
-        <TableCell component="th" scope="row">{progressText()} {titleText()}</TableCell>
+        <ExpandableButtonCell />
+        <TableCell style={{width:'30px'}}><StatusIcon /></TableCell>
+        <TableCell style={{width:'30px'}}><RequestIcon /></TableCell>
+        <TableCell component="th" scope="row"><ProgressText/> <TitleText/></TableCell>
         <TableCell align="right">
           <IconButton onClick={(event) => setModalOpen(true)} color="secondary"><ClearIcon /></IconButton>
         </TableCell>
       </TableRow>
-      {itemsRow()}
+      <ItemsRow />
       <Dialog
         open={isModalOpen}
         aria-labelledby="alert-dialog-title"

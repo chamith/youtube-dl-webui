@@ -6,11 +6,12 @@ import ErrorIcon from '@material-ui/icons/Error';
 import PauseIcon from '@material-ui/icons/Pause';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 
 export default function YddItem(props) {
   const { id, title, status, progress } = props.item;
 
-  const statusIcon = () => {
+  const StatusIcon = () => {
     switch (status) {
       case 0:
         return <HourglassEmptyIcon />;
@@ -25,15 +26,18 @@ export default function YddItem(props) {
     }
   }
 
-  const progressText = () => {
+  const ProgressText = () => {
     return status > 0 && status < 3 ? (` [${progress.toFixed(2)}%]`) : '';
   }
 
   return (
     <TableRow key={id}>
-      <TableCell component="th" scope="row">
-        {statusIcon()}
+      <TableCell style={{padding:'6px', width:'30px'}}>
+        <StatusIcon/>
       </TableCell>
-      <TableCell> {progressText()} {title}</TableCell>
+      <TableCell style={{padding:'6px', width:'30px'}}>
+      <YouTubeIcon />
+      </TableCell>      
+      <TableCell  style={{padding:'6px'}}> <ProgressText/> {title}</TableCell>
     </TableRow>)
 } 
