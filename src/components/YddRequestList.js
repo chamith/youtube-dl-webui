@@ -13,14 +13,15 @@ export default function YddRequestList(props) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>
+        {/* <TableHead>
           <TableRow>
-            <TableCell style={{ width: '40px' }} />
-            <TableCell style={{ width: '40px' }}>Status</TableCell>
+            <TableCell/>
+            <TableCell/>
+            <TableCell/>
             <TableCell>URL</TableCell>
             <TableCell align="right">Actions</TableCell>
           </TableRow>
-        </TableHead>
+        </TableHead> */}
         <TableBody>
           {props.requests.map((request) => (
             <YddRequest key={request.id} request={request} onDelete={(requestId) => props.onDelete(requestId)} />

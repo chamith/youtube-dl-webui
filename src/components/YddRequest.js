@@ -19,18 +19,20 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import YouTubeIcon from '@material-ui/icons/YouTube';
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 
 const useRowStyles = makeStyles({
   root: {
     '& > *': {
-      borderBottom: 'unset',
+      // borderBottom: 'unset',
       padding: '5px'
     },
   },
 });
 
 export default function YddRequest(props) {
-  const { id, url, status, progress, items } = props.request;
+  const { id, url, status, progress, items, title, type, uploader } = props.request;
   const [isModalOpen, setModalOpen] = useState(false);
   const [isRowOpen, setRowOpen] = useState(false);
   const classes = useRowStyles();
@@ -51,20 +53,26 @@ export default function YddRequest(props) {
     return status > 0 && status < 3 ? (` [${progress.toFixed(2)}%]`) : '';
   }
 
-  return (
-    <>
-      <TableRow className={classes.root}>
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setRowOpen(!isRowOpen)}>
-            {isRowOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell>{statusIcon()}</TableCell>
-        <TableCell component="th" scope="row">{progressText()} {url}</TableCell>
-        <TableCell align="right">
-          <IconButton onClick={(event) => setModalOpen(true)} color="secondary"><ClearIcon /></IconButton>
-        </TableCell>
-      </TableRow>
+  const titleText = () => {
+    return title == null ? url : title;
+  }
+
+  const icon = () => {
+    return type == 'video' ? <YouTubeIcon /> : <SubscriptionsIcon />;
+  }
+
+  const expandButtonCell = () => {
+    return type == 'video' ? (<TableCell />) : (
+      <TableCell>
+        <IconButton aria-label="expand row" size="small" onClick={() => setRowOpen(!isRowOpen)}>
+          {isRowOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        </IconButton>
+      </TableCell>
+    );
+  }
+
+  const itemsRow = () => {
+    return type == 'video' ? ('') : (
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={isRowOpen} timeout="auto" unmountOnExit>
@@ -74,6 +82,20 @@ export default function YddRequest(props) {
           </Collapse>
         </TableCell>
       </TableRow>
+    )
+  }
+  return (
+    <>
+      <TableRow className={classes.root}>
+        {expandButtonCell()}
+        <TableCell>{statusIcon()}</TableCell>
+        <TableCell>{icon()}</TableCell>
+        <TableCell component="th" scope="row">{progressText()} {titleText()}</TableCell>
+        <TableCell align="right">
+          <IconButton onClick={(event) => setModalOpen(true)} color="secondary"><ClearIcon /></IconButton>
+        </TableCell>
+      </TableRow>
+      {itemsRow()}
       <Dialog
         open={isModalOpen}
         aria-labelledby="alert-dialog-title"
