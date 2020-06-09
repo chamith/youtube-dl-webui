@@ -30,12 +30,10 @@ export default function Header(props) {
   const [validateOnBlur, setValidateOnBlur] = useState(false);
 
   const handleSubmit = (event) => {
-    
     if(validateUrl(url)){
       props.onAdd({ url: url, schedule: schedule });
       setModalOpen(false);
     }
-
   }
 
   const handleClick = (event) => {
@@ -48,23 +46,13 @@ export default function Header(props) {
   };
 
   const validateUrl = (url) => {
-
-    console.log("validating URL")
     let res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-
     let isValid = (res !== null);
-
-    if (url === '')
-      isValid = false;
     
-    if (!isValid){
-      setUrlHelperText('invalid URL');
-    }
-    else
-      setUrlHelperText('');
-
+    setUrlHelperText(isValid? '': 'invalid URL');
     setValidUrl(isValid);
-    setValidateOnBlur(true)
+    setValidateOnBlur(true);
+
     return isValid;
   }
 

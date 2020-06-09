@@ -46,7 +46,6 @@ export default function App() {
         const requests = res.data
         requests.map((request) => {
           request.avgPrg = avgPrg(request)
-          //console.log(`url:${request.url}, average:${request.avgPrg}`)
           return request;
         });
         setRequests(requests);
