@@ -8,12 +8,13 @@ import Container from '@material-ui/core/Container';
 export default function App() {
   const baseUrl = getApiHost();
   const [requests, setRequests] = useState([]);
+  const [update, setUpdate] = useState(false);
 
   const deleteRequest = requestId => {
     console.log('delete requested', requestId)
     axios.delete(baseUrl + '/api/requests/' + requestId)
       .then(res => {
-        getRequests()
+        setUpdate(true);
       })
   }
 
@@ -21,8 +22,7 @@ export default function App() {
     axios.post(baseUrl + '/api/requests', request)
       .then(res => {
         console.log('submitted')
-        getRequests()
-
+        setUpdate(true);
       })
   }
 
@@ -30,7 +30,7 @@ export default function App() {
     console.log('clear completed requested')
     axios.delete(baseUrl + '/api/requests')
       .then(res => {
-        getRequests()
+        setUpdate(true);
       })
   }
 
@@ -54,9 +54,15 @@ export default function App() {
 
   useEffect(() => {
     getRequests();
-    setInterval(getRequests, 5000); // runs every 5 seconds.
+    const interval = setInterval(getRequests, 5000); // runs every 5 seconds.
+
+    return () => clearInterval(interval);
   }, [])
 
+  useEffect(() => {
+    getRequests();
+  }, [update])
+  
   return (
     <Container>
       <Header onAdd={(request) => addRequest(request)} onClear={() => clearCompletedRequests()} />
