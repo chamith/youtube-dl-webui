@@ -4,11 +4,28 @@ import {getApiHost} from './Config';
 import YddRequestList from './components/YddRequestList';
 import Header from './components/Header';
 import Container from '@material-ui/core/Container';
+import {Fab} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Footer from './components/Footer';
+import AddNewRequestModal from './components/AddNewRequestModal';
+
+const useStyles = makeStyles((theme) => ({
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(5),
+    right: theme.spacing(5),
+  }
+}));
 
 export default function App() {
   const baseUrl = getApiHost();
   const [requests, setRequests] = useState([]);
   const [update, setUpdate] = useState(false);
+  const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
+
+  const classes = useStyles();
+  const theme = useTheme();
 
   const deleteRequest = requestId => {
     console.log('delete requested', requestId)
@@ -22,6 +39,7 @@ export default function App() {
     axios.post(baseUrl + '/api/requests', request)
       .then(res => {
         console.log('submitted')
+        setIsAddNewModalOpen(false);
         setUpdate(true);
       })
   }
@@ -63,11 +81,19 @@ export default function App() {
     getRequests();
   }, [update])
   
+
   return (
-    <Container>
-      <Header onAdd={(request) => addRequest(request)} onClear={() => clearCompletedRequests()} />
+    <>
+    <Header onAdd={()=> setIsAddNewModalOpen(true)} onClear={() => clearCompletedRequests()} />
+    <Container style={{marginTop:'15px'}}>
       <YddRequestList requests={requests} onDelete={(requestId) => deleteRequest(requestId)} />
+      <Fab size="medium" className={classes.fab} color="primary" aria-label="add" onClick={()=> setIsAddNewModalOpen(true)}>
+        <AddIcon />
+      </Fab>
     </Container>
+    <Footer></Footer>
+    <AddNewRequestModal open={isAddNewModalOpen} onCancel={()=> setIsAddNewModalOpen(false)} onSubmit={ request => addRequest(request)}/>
+    </>
   );
 }
 
