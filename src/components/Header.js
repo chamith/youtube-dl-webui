@@ -24,7 +24,6 @@ export default function Header(props) {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,7 +32,6 @@ export default function Header(props) {
     console.log(event.target.value)
     setAnchorEl(null);
   };
-
 
   const classes = useStyles();
   return (
@@ -51,9 +49,9 @@ export default function Header(props) {
         </Toolbar>
       </AppBar>
       <Toolbar className={classes.toolBar}>
-        <IconButton onClick={() => props.onAdd()} color="inherit" edge="start" ><AddIcon /></IconButton>
-        <IconButton onClick={() => props.onClear()}><ClearAllIcon/></IconButton>
+        <IconButton onClick={props.onAdd} color="inherit" edge="start" ><AddIcon /></IconButton>
+        <IconButton onClick={props.onClear}><ClearAllIcon /></IconButton>
       </Toolbar>
-</>
+    </>
   )
 }

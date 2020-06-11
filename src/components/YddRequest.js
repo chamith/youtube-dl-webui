@@ -12,15 +12,10 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import DoneIcon from '@material-ui/icons/Done';
 import ErrorIcon from '@material-ui/icons/Error';
 import YddItemList from './YddItemList'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import DeleteRequestModal from './DeleteRequestModal';
 
 const useRowStyles = makeStyles({
   root: {
@@ -33,8 +28,8 @@ const useRowStyles = makeStyles({
 
 
 export default function YddRequest(props) {
-  const { id, url, status, progress, items, title, type, uploader } = props.request;
-  const [isModalOpen, setModalOpen] = useState(false);
+  const {url, status, progress, items, title, type, uploader } = props.request;
+  const [isDeleteRequestModalOpen, setDeleteRequestModalOpen] = useState(false);
   const [isRowOpen, setRowOpen] = useState(false);
   const classes = useRowStyles();
 
@@ -93,25 +88,11 @@ export default function YddRequest(props) {
         <TableCell style={{ width: '30px' }}><RequestIcon /></TableCell>
         <TableCell component="th" scope="row"><ProgressText /> <TitleText /></TableCell>
         <TableCell align="right">
-          <IconButton onClick={(event) => setModalOpen(true)} color="secondary"><ClearIcon /></IconButton>
+          <IconButton onClick={(event) => setDeleteRequestModalOpen(true)} color="secondary"><ClearIcon /></IconButton>
         </TableCell>
       </TableRow>
       <ItemsRow />
-      <Dialog
-        open={isModalOpen}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure to delete the request <b>'{url}'</b>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => props.onDelete(id)} color="primary" variant="contained" autoFocus> Yes </Button>
-          <Button onClick={() => setModalOpen(false)} color="secondary" variant="contained">No</Button>
-        </DialogActions>
-      </Dialog>
+      <DeleteRequestModal open={isDeleteRequestModalOpen} request={props.request} onDelete={props.onDelete} onCancel={()=>setDeleteRequestModalOpen(false)}/>
     </>
   )
 }
