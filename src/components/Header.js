@@ -45,7 +45,7 @@ export default function Header(props) {
             <MenuItem onClick={event => { props.onAdd(); setAnchorEl(null); }}><AddIcon />&nbsp;&nbsp;Add</MenuItem>
             <MenuItem onClick={() => { props.onClear(); setAnchorEl(null); }}><ClearAllIcon />&nbsp;&nbsp;Clear Completed</MenuItem>
           </Menu>
-          <Typography className={classes.title} variant="h6" > YouTube Download Daemon </Typography>
+          <Typography className={classes.title} variant="h6" > Download Daemon </Typography>
         </Toolbar>
       </AppBar>
       <Toolbar className={classes.toolBar}>

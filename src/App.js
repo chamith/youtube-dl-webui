@@ -85,7 +85,7 @@ export default function App() {
   return (
     <>
     <Header onAdd={()=> setIsAddNewModalOpen(true)} onClear={() => clearCompletedRequests()} />
-    <Container style={{marginTop:'15px'}}>
+    <Container style={{marginTop:'15px', position:'relative', height:'100%'}}>
       <YddRequestList requests={requests} onDelete={(requestId) => deleteRequest(requestId)} />
       <Fab size="medium" className={classes.fab} color="primary" aria-label="add" onClick={()=> setIsAddNewModalOpen(true)}>
         <AddIcon />
