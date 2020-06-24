@@ -2,6 +2,8 @@
 
 npm run build
 
+SERVICE_REPO_DIR=../doda-service
+
 echo "refreshing the daemon's web-ui files"
-rm ../youtube-dl-daemon/web-ui/* -r
-cp build/* ../youtube-dl-daemon/web-ui/ -r
+rm $SERVICE_REPO_DIR/web-ui/* -r
+cp build/* $SERVICE_REPO_DIR/web-ui/ -r
