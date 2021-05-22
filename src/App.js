@@ -6,7 +6,7 @@ import Header from './components/Header';
 import Container from '@material-ui/core/Container';
 import {Fab} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Footer from './components/Footer';
 import AddNewRequestModal from './components/AddNewRequestModal';
 
@@ -25,7 +25,6 @@ export default function App() {
   const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
 
   const classes = useStyles();
-  const theme = useTheme();
 
   const deleteRequest = requestId => {
     console.log('delete requested', requestId)
@@ -89,7 +88,6 @@ export default function App() {
     getRequests();
   }, [update])
   
-
   return (
     <>
     <Header onAdd={()=> setIsAddNewModalOpen(true)} onClear={() => clearCompletedRequests()} />
@@ -104,4 +102,3 @@ export default function App() {
     </>
   );
 }
-
