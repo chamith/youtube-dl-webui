@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
+import ClearIcon from '@material-ui/icons/Clear';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ClearIcon from '@material-ui/icons/Clear';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import DoneIcon from '@material-ui/icons/Done';
@@ -47,7 +47,7 @@ export default function YddRequest(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={isRowOpen} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <YddItemList items={items} />
+              <YddItemList items={items} onDelete={props.onDelete} onItemDelete={props.onItemDelete}/>
             </Box>
           </Collapse>
         </TableCell>

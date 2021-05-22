@@ -35,6 +35,14 @@ export default function App() {
       })
   }
 
+  const deleteItem = itemId => {
+    console.log('delete item requested', itemId)
+    axios.delete(baseUrl + '/api/items/' + itemId)
+      .then(res => {
+        setUpdate(true);
+      })
+  }
+
   const addRequest = (request) => {
     axios.post(baseUrl + '/api/requests', request)
       .then(res => {
@@ -86,7 +94,7 @@ export default function App() {
     <>
     <Header onAdd={()=> setIsAddNewModalOpen(true)} onClear={() => clearCompletedRequests()} />
     <Container style={{marginTop:'15px', position:'relative', height:'100%'}}>
-      <YddRequestList requests={requests} onDelete={(requestId) => deleteRequest(requestId)} />
+      <YddRequestList requests={requests} onDelete={(requestId) => deleteRequest(requestId)} onItemDelete={(itemId) => deleteItem(itemId)} />
       <Fab size="medium" className={classes.fab} color="primary" aria-label="add" onClick={()=> setIsAddNewModalOpen(true)}>
         <AddIcon />
       </Fab>

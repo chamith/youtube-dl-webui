@@ -9,7 +9,7 @@ export default function YddItemList(props) {
         <Table size="small" aria-label="purchases" style={{ margin: '0px 0px 0px 75px', width: '95%' }}>
             <TableBody>
                 {props.items.map((item) => (
-                    <YddItem key={item.id} item={item} />
+                    <YddItem key={item.id} item={item} onDelete={props.onItemDelete} />
                 ))}
             </TableBody>
         </Table>

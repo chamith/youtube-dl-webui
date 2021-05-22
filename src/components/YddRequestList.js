@@ -19,7 +19,7 @@ export default function YddRequestList(props) {
         </TableHead>
         <TableBody>
           {props.requests.map((request) => (
-            <YddRequest key={request.id} request={request} onDelete={(requestId) => props.onDelete(requestId)} />
+            <YddRequest key={request.id} request={request} onDelete={(requestId) => props.onDelete(requestId)} onItemDelete={(itemId) => props.onItemDelete(itemId)}/>
           ))}
         </TableBody>
       </Table>
